@@ -33,6 +33,19 @@ services:
         labels:
             - "traefik.docker.network=traefik-proxy"
             - "traefik.http.routers.website.rule=Host(`aciff.local`)"
+    composer:
+        container_name: aciff-composer
+        build:
+            target: install
+            context: .
+            dockerfile: ./.docker/php/Dockerfile
+        tty: true
+        volumes:
+            - ./source/website:/var/www
+            - ~/.ssh:/root/.ssh
+        networks:
+            - proxy
+            - local
 
 networks:
     proxy:
